@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MATLAB 数学实验指导手册 · 食品专业版专科高等数学</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2300528f'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --blue:#00528f;
+  --blue-deep:#003a66;
+  --blue-soft:#e8f2fa;
+  --cyan:#0e7c86;
+  --amber:#c98a1b;
+  --green:#1f8a4c;
+  --red:#b3402e;
+  --ink:#1a2430;
+  --ink-2:#44586c;
+  --paper:#ffffff;
+  --paper-2:#f5f8fb;
+  --line:#d9e3ec;
+  --code-bg:#0e1726;
+  --code-line:#223048;
+  --mono:"JetBrains Mono","SF Mono",Consolas,"Courier New",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ===== 顶栏 ===== */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.topbar .logo{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--blue-deep);font-size:15px;white-space:nowrap}
+.topbar .logo svg{flex:0 0 auto}
+.topbar .toc-toggle{display:none;margin-left:auto;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-family:var(--sans)}
+.progress{height:3px;background:transparent;position:absolute;left:0;bottom:-1px;width:0;background:var(--cyan);transition:width .1s linear}
+
+/* ===== 版式容器 ===== */
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:34px;padding:0 20px}
+@media (max-width:900px){.layout{grid-template-columns:1fr;padding:0 14px}}
+
+/* ===== 侧边目录 ===== */
+aside.sidenav{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 84px);overflow:auto;padding:18px 14px 30px;border-right:1px solid var(--line);font-size:14px}
+@media (max-width:900px){
+  aside.sidenav{position:fixed;left:0;top:0;bottom:0;width:min(300px,86vw);background:#fff;z-index:80;transform:translateX(-102%);transition:transform .25s ease;border-right:1px solid var(--line);padding:70px 16px 30px;max-height:none}
+  aside.sidenav.open{transform:translateX(0)}
+  .topbar .toc-toggle{display:block}
+}
+.sidenav .nav-cap{font-size:12px;letter-spacing:.08em;color:var(--ink-2);margin:10px 6px 6px;font-weight:600}
+.sidenav a{display:block;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;border-left:3px solid transparent;line-height:1.5}
+.sidenav a:hover{background:var(--blue-soft);color:var(--blue-deep)}
+.sidenav a.chap{font-weight:700;color:var(--ink);margin-top:4px}
+.sidenav a.sec{padding-left:22px;font-size:13px}
+.sidenav a.active{background:var(--blue-soft);color:var(--blue-deep);border-left-color:var(--blue)}
+.sidenav-backdrop{display:none;position:fixed;inset:0;background:rgba(10,20,32,.4);z-index:70}
+.sidenav-backdrop.show{display:block}
+
+/* ===== Hero ===== */
+.hero{background:linear-gradient(150deg,var(--blue-deep) 0%,#083b63 55%,#0b5e6d 100%);color:#fff;padding:52px 0 0}
+.hero-in{max-width:1180px;margin:0 auto;padding:0 20px 34px;display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
+@media (max-width:900px){.hero-in{grid-template-columns:1fr;padding:0 14px 28px;gap:22px}}
+.hero .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.12em;color:#9fd0ee;border:1px solid rgba(159,208,238,.4);border-radius:999px;padding:5px 14px;margin-bottom:18px}
+.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.25;font-weight:800;letter-spacing:.01em}
+.hero h1 .accent{color:#ffd479}
+.hero .sub{margin-top:14px;color:#c9e2f4;font-size:15.5px;max-width:52ch}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 12px;border-radius:8px;font-size:13px}
+.hero .cta-row{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn{border:none;cursor:pointer;font-family:var(--sans);font-size:14.5px;font-weight:600;padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.hero .btn-primary{background:#ffd479;color:#3a2603}
+.hero .btn-primary:hover{background:#ffdf9c}
+.hero .btn-ghost{background:transparent;color:#e8f4ff;border:1px solid rgba(255,255,255,.45)}
+.hero .btn-ghost:hover{background:rgba(255,255,255,.1)}
+
+/* 终端面板 */
+.term{background:#0a1420;border:1px solid #24405c;border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.35);overflow:hidden;font-family:var(--mono);font-size:13.5px;line-height:1.65}
+.term .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#132238;border-bottom:1px solid #24405c}
+.term .dot{width:11px;height:11px;border-radius:50%}
+.term .dot.r{background:#ff5f57}.term .dot.y{background:#febc2e}.term .dot.g{background:#28c840}
+.term .term-title{margin-left:6px;color:#7d93b2;font-size:12px}
+.term .term-body{padding:14px 16px 16px;min-height:236px;color:#d7e4f2}
+.term .t-line{opacity:0;transform:translateY(4px);white-space:pre-wrap;word-break:break-all}
+.term .t-line.show{opacity:1;transform:none;transition:opacity .25s ease,transform .25s ease}
+.term .t-cmd{color:#c9d8e8}
+.term .t-cmd::before{content:">> ";color:#4fc3f7;font-weight:700}
+.term .t-out{color:#9be19b}
+.term .t-out::before{content:"ans = ";color:#7fa8c9}
+.term .cursor{display:inline-block;width:8px;height:15px;background:#4fc3f7;vertical-align:-2px;animation:blink 1s steps(1) infinite;margin-left:3px}
+@keyframes blink{50%{opacity:0}}
+@media (max-width:900px){.term .term-body{min-height:150px;font-size:12px}}
+
+/* ===== 内容区 ===== */
+main.content{min-width:0;padding:36px 8px 60px}
+section.sec-block{margin-bottom:44px;scroll-margin-top:70px}
+.chap-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.08em;border-radius:7px;padding:4px 12px;margin-bottom:12px}
+section.sec-block h2{font-size:clamp(22px,3vw,28px);color:var(--blue-deep);font-weight:800;line-height:1.35;margin-bottom:6px}
+section.sec-block h3{font-size:19px;color:var(--ink);font-weight:700;margin:26px 0 10px;padding-left:12px;border-left:4px solid var(--cyan)}
+section.sec-block h4{font-size:16px;color:var(--ink-2);font-weight:700;margin:18px 0 8px}
+p{margin:10px 0}
+.lead{font-size:16.5px;color:var(--ink-2)}
+strong{color:var(--ink)}
+em{color:var(--ink-2)}
+ul,ol{margin:10px 0 10px 26px}
+li{margin:4px 0}
+a{color:var(--blue)}
+.pill{display:inline-block;background:var(--blue-soft);color:var(--blue-deep);border-radius:6px;padding:1px 8px;font-size:13px;font-weight:600;margin:0 2px}
+.kbd{font-family:var(--mono);background:#edf2f7;border:1px solid #d5dee8;border-bottom-width:2px;border-radius:5px;padding:0 6px;font-size:13px}
+
+/* 提示框 */
+.tip,.warn,.danger{display:flex;gap:10px;border-radius:10px;padding:12px 14px;margin:14px 0;font-size:14.5px;line-height:1.65;overflow-wrap:anywhere}
+.tip code,.warn code,.danger code{overflow-wrap:anywhere;word-break:break-all;white-space:normal}
+.tip{background:#eefaf1;border:1px solid #c4e8cd;color:#155a33}
+.tip::before{content:"提示";flex:0 0 auto;font-weight:800;color:#1f8a4c}
+.warn{background:#fff8ea;border:1px solid #f2dcb0;color:#6b4a10}
+.warn::before{content:"注意";flex:0 0 auto;font-weight:800;color:#c98a1b}
+.danger{background:#fdf0ee;border:1px solid #f0c6bf;color:#7c2f22}
+.danger::before{content:"易错";flex:0 0 auto;font-weight:800;color:#b3402e}
+
+/* 表格 */
+.table-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}
+table.tbl-auto{table-layout:auto}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;word-break:break-word}
+th{background:var(--paper-2);color:var(--blue-deep);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td code{overflow-wrap:break-word;word-break:break-all;white-space:normal}
+.table-wrap+.table-wrap{margin-top:6px}
+caption{caption-side:top;text-align:left;font-weight:700;color:var(--ink);padding:6px 4px;font-size:14.5px}
+
+/* 代码块 */
+.codeblock{position:relative;margin:14px 0;border-radius:12px;overflow:hidden;background:var(--code-bg);box-shadow:0 6px 18px rgba(10,23,40,.12)}
+.codeblock .cb-head{display:flex;align-items:center;justify-content:space-between;background:#132238;padding:7px 14px;border-bottom:1px solid var(--code-line)}
+.codeblock .cb-title{color:#8ba3c4;font-family:var(--mono);font-size:12px}
+.codeblock .copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#cfe0f2;border-radius:7px;font-size:12px;padding:4px 10px;cursor:pointer;font-family:var(--sans);transition:background .15s}
+.codeblock .copy-btn:hover{background:rgba(255,255,255,.16)}
+.codeblock .copy-btn.done{background:#1f8a4c;border-color:#1f8a4c;color:#fff}
+.codeblock pre{padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.7;color:#d7e4f2;tab-size:4}
+.codeblock pre code{font-family:var(--mono);background:transparent}
+/* 运行结果 */
+.output{background:#0b2a1c;border-left:4px solid #2e9e5b;border-radius:0 10px 10px 0;padding:12px 16px;margin:0 0 16px;font-family:var(--mono);font-size:13.5px;line-height:1.7;color:#b8e6c0;overflow-x:auto}
+.output .o-title{color:#6fa98a;font-size:12px;letter-spacing:.08em;margin-bottom:6px;font-family:var(--sans);font-weight:700}
+.output pre{margin:0;white-space:pre-wrap;word-break:break-all}
+.output .cmt{color:#7fae93}
+.output .cmd{color:#8fd8ff}
+
+/* 流程图 */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:16px 0;padding:16px;background:var(--paper-2);border:1px dashed var(--line);border-radius:12px}
+.flow .fnode{background:#fff;border:1.5px solid var(--blue);color:var(--blue-deep);border-radius:9px;padding:8px 12px;font-size:13.5px;font-weight:600;text-align:center;min-width:86px;line-height:1.45}
+.flow .fnode.dec{border-color:var(--amber);color:#7a5510;background:#fffdf6;border-radius:8px;transform:rotate(0)}
+.flow .fnode.io{border-color:var(--green);color:#155a33;background:#f2faf5}
+.flow .fnode.start{background:var(--blue-deep);color:#fff;border-radius:999px;border-color:var(--blue-deep)}
+.flow .fnode.end{background:var(--ink-2);color:#fff;border-radius:999px;border-color:var(--ink-2)}
+.flow .farrow{color:var(--ink-2);font-size:16px;flex:0 0 auto;font-weight:700}
+.flow .fnote{flex:0 0 100%;color:var(--ink-2);font-size:12.5px;margin-top:4px}
+@media (max-width:640px){.flow{flex-direction:column;align-items:stretch}.flow .farrow{transform:rotate(90deg);align-self:center;padding:2px 0}.flow .fnode{width:100%}}
+
+/* 公式 */
+.formula{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:12px 0;overflow-x:auto;text-align:center}
+.formula .katex{font-size:1.02em}
+.inline-math{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.inline-math::-webkit-scrollbar{height:0;display:none}
+p code,li code,.tip code,.warn code,.danger code,td code{overflow-wrap:break-word;word-break:break-all}
+strong{overflow-wrap:break-word}
+@media (max-width:640px){
+  .formula{padding:8px 10px;text-align:left}
+  .hero .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .hero .meta span{text-align:center}
+}
+
+/* 图容器 */
+.chart-box{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:12px;margin:14px 0}
+.chart-box .chart-title{font-size:13.5px;font-weight:700;color:var(--ink-2);margin:2px 4px 8px}
+.chart-box .chart-note{font-size:12.5px;color:var(--ink-2);margin:4px;text-align:center}
+.chart{width:100%;height:340px}
+.chart.tall{height:400px}
+.chart.fallback{display:flex;align-items:center;justify-content:center;height:340px;color:var(--ink-2);font-size:14px;text-align:center;padding:10px}
+@media (max-width:640px){.chart{height:280px}.chart.tall{height:320px}}
+
+/* 案例卡片 */
+.case{border:1px solid var(--line);border-left:5px solid var(--cyan);border-radius:12px;padding:18px 20px;margin:20px 0;background:#fbfdfe}
+.case .case-tag{display:inline-block;background:var(--cyan);color:#fff;font-size:12px;font-weight:700;border-radius:6px;padding:2px 10px;margin-bottom:8px}
+.case h4{font-size:17px;margin:4px 0 8px;color:var(--ink)}
+.case h5{font-size:14.5px;color:var(--blue-deep);margin:12px 0 6px}
+
+/* 交互滑块 */
+.ctrl{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-size:14px}
+.ctrl label{font-weight:700;color:var(--ink-2)}
+.ctrl input[type=range]{width:180px;accent-color:var(--blue)}
+.ctrl .val{font-family:var(--mono);color:var(--blue-deep);font-weight:700;min-width:56px}
+.ctrl .out-kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:13.5px;color:var(--blue-deep)}
+
+/* 章节目录卡片 */
+.agenda{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0}
+.agenda h4{color:var(--blue-deep);margin-bottom:8px}
+.agenda ol{margin-left:20px}
+.agenda li{margin:3px 0;font-size:14.5px}
+
+/* 打印 */
+@media print{
+  .topbar,aside.sidenav,.hero .cta-row,.copy-btn,.sidenav-backdrop{display:none!important}
+  .layout{display:block;max-width:100%;padding:0}
+  main.content{padding:0}
+  section.sec-block{page-break-inside:avoid}
+  .chart{height:260px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶栏 ===== -->
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">
+      <svg width="26" height="26" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#00528f"/><text x="16" y="23" font-size="18" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="bold">M</text></svg>
+      MATLAB 数学实验手册
+    </div>
+    <button class="toc-toggle" id="tocToggle" type="button" aria-label="打开目录">目录</button>
+    <div class="progress" id="progressBar"></div>
+  </div>
+</header>
+<div class="sidenav-backdrop" id="navBackdrop"></div>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="kicker">食品专业 · 专科高等数学 · 数学实验</div>
+      <h1>MATLAB 数学实验<br><span class="accent">指导手册</span></h1>
+      <p class="sub">从零基础语法到高等数学实验，再到食品工程建模应用：极限、导数、积分、微分方程、级数，每一讲都配文字阐释、流程图、可运行代码与运行结果。</p>
+      <div class="meta">
+        <span>基础语法全解</span><span>高等数学实验</span><span>食品专业案例</span><span>实验报告模板</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#ch1">开始学习</a>
+        <a class="btn btn-ghost" href="#ch6">看食品应用案例</a>
+      </div>
+    </div>
+    <div class="term" id="heroTerm" aria-label="MATLAB 命令行示例">
+      <div class="term-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="term-title">MATLAB R2023a — 命令行窗口</span>
+      </div>
+      <div class="term-body" id="heroTermBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 主体 ===== -->
+<div class="layout">
+
+  <aside class="sidenav" id="sidenav">
+    <div class="nav-cap">目录</div>
+    <a class="chap" href="#guide">手册导学</a>
+    <a class="chap" href="#ch1">第 1 章 基础语法</a>
+    <a class="sec" href="#s1-1">1.1 界面与工作区</a>
+    <a class="sec" href="#s1-2">1.2 变量与数据类型</a>
+    <a class="sec" href="#s1-3">1.3 运算符与表达式</a>
+    <a class="sec" href="#s1-4">1.4 常用数学函数</a>
+    <a class="sec" href="#s1-5">1.5 数组与矩阵</a>
+    <a class="sec" href="#s1-6">1.6 流程控制</a>
+    <a class="sec" href="#s1-7">1.7 脚本与函数文件</a>
+    <a class="sec" href="#s1-8">1.8 基础绘图</a>
+    <a class="chap" href="#ch2">第 2 章 极限与连续</a>
+    <a class="sec" href="#s2-1">2.1 求极限 limit</a>
+    <a class="sec" href="#s2-2">2.2 连续性判断</a>
+    <a class="chap" href="#ch3">第 3 章 导数与微分</a>
+    <a class="sec" href="#s3-1">3.1 求导 diff</a>
+    <a class="sec" href="#s3-2">3.2 偏导数</a>
+    <a class="sec" href="#s3-3">3.3 极值与最值</a>
+    <a class="chap" href="#ch4">第 4 章 积分</a>
+    <a class="sec" href="#s4-1">4.1 不定积分</a>
+    <a class="sec" href="#s4-2">4.2 定积分</a>
+    <a class="sec" href="#s4-3">4.3 反常积分</a>
+    <a class="sec" href="#s4-4">4.4 数值积分</a>
+    <a class="sec" href="#s4-5">4.5 积分应用</a>
+    <a class="chap" href="#ch5">第 5 章 微分方程与级数</a>
+    <a class="sec" href="#s5-1">5.1 微分方程 dsolve</a>
+    <a class="sec" href="#s5-2">5.2 数值解 ode45</a>
+    <a class="sec" href="#s5-3">5.3 泰勒展开 taylor</a>
+    <a class="chap" href="#ch6">第 6 章 食品专业应用</a>
+    <a class="sec" href="#s6-1">6.1 食品冷却模型</a>
+    <a class="sec" href="#s6-2">6.2 细菌增殖模型</a>
+    <a class="sec" href="#s6-3">6.3 营养降解拟合</a>
+    <a class="sec" href="#s6-4">6.4 加工最值问题</a>
+    <a class="sec" href="#s6-5">6.5 质检数据分析</a>
+    <a class="chap" href="#ch7">第 7 章 实验报告模板</a>
+    <a class="chap" href="#appendix">附录 · 命令速查</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ===== 导学 ===== -->
+    <section class="sec-block" id="guide">
+      <span class="chap-badge">导学</span>
+      <h2>这门课学什么？本手册怎么用？</h2>
+      <p class="lead">《高等数学》（食品专业版）配套的“数学实验”课，目标不是让你背公式，而是用 MATLAB 这把“计算器+画图板”，把高数里的概念亲手算出来、画出来、验证出来。</p>
+      <div class="agenda">
+        <h4>手册结构一览</h4>
+        <ol>
+          <li><strong>第 1 章</strong>：MATLAB 基础语法 —— 变量、函数、矩阵、流程控制、绘图，零基础起步；</li>
+          <li><strong>第 2~5 章</strong>：高等数学四大主题实验 —— 极限、导数、积分、微分方程与级数，每条命令配代码与运行结果；</li>
+          <li><strong>第 6 章</strong>：食品专业综合应用 —— 冷却、细菌增殖、营养降解、加工优化、质检数据，把数学用起来；</li>
+          <li><strong>第 7 章</strong>：实验报告模板 + 附录命令速查表。</li>
+        </ol>
+      </div>
+      <div class="tip">建议路径：先跟着第 1 章把命令亲手敲一遍 → 再按章节做实验 → 第 6 章选 2~3 个案例写进实验报告。</div>
+      <div class="warn">每个代码块右上角都有“复制”按钮，复制后粘贴到 MATLAB 命令窗口或脚本文件中即可运行。结果以 MATLAB R2020b 及以上版本为准，低版本个别函数（如 <code>integral</code>）需注意版本。</div>
+
+      <h3>数学实验的通用流程图</h3>
+      <p>任何一次数学实验，都遵循“建模 → 求解 → 可视化 → 验证 → 结论”的流程，本手册所有实验都按这个套路组织：</p>
+      <div class="flow" aria-label="数学实验通用流程">
+        <div class="fnode start">实际问题</div>
+        <div class="farrow">→</div>
+        <div class="fnode">建立数学模型<br><small>符号/公式</small></div>
+        <div class="farrow">→</div>
+        <div class="fnode">MATLAB 求解<br><small>limit/diff/int/dsolve</small></div>
+        <div class="farrow">→</div>
+        <div class="fnode">可视化<br><small>plot/fplot</small></div>
+        <div class="farrow">→</div>
+        <div class="fnode dec">结果合理？</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">结论与分析</div>
+        <div class="fnote">“结果合理？”分支：不合理则回到“建立数学模型”或“MATLAB 求解”重新调整参数与假设。</div>
+      </div>
+    </section>
+
+    <!-- ===== 第 1 章 ===== -->
+    <section class="sec-block" id="ch1">
+      <span class="chap-badge">第 1 章</span>
+      <h2>MATLAB 基础语法：从零开始</h2>
+      <p class="lead">这一章不讲高数，先把 MATLAB 这门“语言”学会。全部内容都能在命令窗口逐行输入验证。</p>
+
+      <h3 id="s1-1">1.1 MATLAB 界面与工作区</h3>
+      <p>打开 MATLAB 后，你会看到几个核心窗口：</p>
+      <div class="table-wrap"><table>
+        <caption>MATLAB 主要窗口及其作用</caption>
+        <colgroup><col style="width:24%"><col style="width:38%"><col style="width:38%"></colgroup>
+        <tr><th>窗口</th><th>作用</th><th>常用操作</th></tr>
+        <tr><td>命令窗口 (Command Window)</td><td>输入并立即执行命令，显示结果，提示符为 <code>&gt;&gt;</code></td><td>逐行输入命令、看输出</td></tr>
+        <tr><td>工作区 (Workspace)</td><td>显示当前所有变量名、值、类型、大小</td><td>双击变量查看/编辑数值</td></tr>
+        <tr><td>编辑器 (Editor)</td><td>编写脚本（<code>.m</code> 文件）与函数</td><td>写多行程序，点“运行”执行</td></tr>
+        <tr><td>当前文件夹 (Current Folder)</td><td>管理文件，显示路径</td><td>设置工作目录、查找文件</td></tr>
+      </table></div>
+      <p>几个最常用管理命令：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 窗口管理</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">clear        % 清空工作区所有变量
+clc          % 清空命令窗口显示内容
+close all    % 关闭所有图形窗口
+who          % 列出当前工作区变量名
+whos         % 列出变量名、大小、类型等详细信息
+format long  % 显示更多小数位（默认 short 显示4位小数）
+</code></pre></div>
+      <div class="tip">初学阶段建议：写长程序用“编辑器+脚本文件”，短实验直接在命令窗口逐行敲。命令窗口里按 <span class="kbd">↑</span> 可调出上一条命令，按 <span class="kbd">Tab</span> 可补全命令或变量名。</div>
+
+      <h3 id="s1-2">1.2 变量与数据类型</h3>
+      <p>MATLAB 中不需要事先声明变量类型，直接“赋值即创建”。变量名以字母开头，可含字母、数字、下划线，区分大小写。默认所有数值都是双精度浮点数 <code>double</code>，还有字符 <code>char</code>、逻辑 <code>logical</code>、符号对象 <code>sym</code>（第 2 章重点用）等。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 变量与类型</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">a = 5            % 数值变量 a = 5
+b = 2.5e3        % 科学计数法，b = 2500
+name = '牛奶'    % 字符向量（字符串），用单引号
+c = a + b        % 运算后赋给新变量 c = 2505
+x = 3 &gt; 1       % 逻辑值，x = logical 1（真）
+whos a b c name x
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre><span class="cmt">Name      Size    Bytes  Class      Attributes</span>
+a         1x1     8      double
+b         1x1     8      double
+c         1x1     8      double
+name      1x4     8      char
+x         1x1     1      logical</pre></div>
+      <p>命令行末尾的英文分号 <code>;</code> 表示“执行但不显示结果”，写脚本时常用；不加分号则立刻在命令窗口打印结果。</p>
+
+      <h3 id="s1-3">1.3 运算符与表达式</h3>
+      <div class="table-wrap"><table>
+        <caption>MATLAB 常用运算符</caption>
+        <colgroup><col style="width:22%"><col style="width:36%"><col style="width:42%"></colgroup>
+        <tr><th>类别</th><th>运算符</th><th>说明</th></tr>
+        <tr><td rowspan="5">算术</td><td><code>+ - * /</code></td><td>加、减、乘、除（矩阵除法另有含义）</td></tr>
+        <tr><td><code>^</code></td><td>乘方，如 <code>2^3</code> = 8</td></tr>
+        <tr><td><code>.* ./ .^</code></td><td>数组（逐元素）乘法、除法、乘方</td></tr>
+        <tr><td><code>sqrt</code></td><td>开方，如 <code>sqrt(9)</code> = 3</td></tr>
+        <tr><td><code>mod rem</code></td><td>取余，如 <code>mod(7,3)</code> = 1</td></tr>
+        <tr><td rowspan="4">关系</td><td><code>==</code></td><td>等于</td></tr>
+        <tr><td><code>~=</code></td><td>不等于</td></tr>
+        <tr><td><code>&gt; &gt;= &lt; &lt;=</code></td><td>大于、大于等于、小于、小于等于</td></tr>
+        <tr><td>结果</td><td>返回逻辑值 1（真）或 0（假）</td></tr>
+        <tr><td rowspan="3">逻辑</td><td><code>&amp; | ~</code></td><td>与、或、非（对逻辑值运算）</td></tr>
+        <tr><td><code>&amp;&amp; ||</code></td><td>短路与、短路或（条件判断中更高效）</td></tr>
+        <tr><td>示例</td><td><code>(3&gt;1) &amp; (2&lt;5)</code> → 1</td></tr>
+      </table></div>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 表达式运算</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">2^10              % 1024
+(1+2)*3           % 9，括号改变优先级
+sqrt(16)          % 4
+mod(7,3)          % 1
+5 == 5            % 逻辑 1
+5 ~= 3            % 逻辑 1
+(2&gt;1) &amp;&amp; (3&gt;2)  % 逻辑 1
+</code></pre></div>
+      <div class="warn">优先级从高到低大致为：括号 → 乘方 → 乘除 → 加减 → 关系 → 逻辑。拿不准就加括号，MATLAB 不扣分，但结果一定是你想要的。</div>
+
+      <h3 id="s1-4">1.4 常用数学函数</h3>
+      <p>高等数学实验里最常用的内置函数，直接“函数名(参数)”调用：</p>
+      <div class="table-wrap"><table>
+        <caption>常用数学函数速查</caption>
+        <colgroup><col style="width:20%"><col style="width:40%"><col style="width:40%"></colgroup>
+        <tr><th>函数</th><th>含义</th><th>示例</th></tr>
+        <tr><td><code>exp</code></td><td>自然指数 e<sup>x</sup></td><td><code>exp(1)</code> → 2.7183</td></tr>
+        <tr><td><code>log log10</code></td><td>自然对数、常用对数</td><td><code>log(exp(1))</code> → 1</td></tr>
+        <tr><td><code>abs</code></td><td>绝对值</td><td><code>abs(-3.2)</code> → 3.2</td></tr>
+        <tr><td><code>sin cos tan</code></td><td>正弦、余弦、正切（弧度制）</td><td><code>sin(pi/2)</code> → 1</td></tr>
+        <tr><td><code>asin acos atan</code></td><td>反三角函数</td><td><code>acos(1)</code> → 0</td></tr>
+        <tr><td><code>sqrt</code></td><td>平方根</td><td><code>sqrt(2)</code> → 1.4142</td></tr>
+        <tr><td><code>round fix floor ceil</code></td><td>四舍五入、取整、向下、向上取整</td><td><code>floor(2.7)</code> → 2</td></tr>
+        <tr><td><code>max min sum mean</code></td><td>最大、最小、求和、平均</td><td><code>sum([1 2 3])</code> → 6</td></tr>
+        <tr><td><code>pi</code></td><td>圆周率 π（内置常量）</td><td><code>2*pi</code> → 6.2832</td></tr>
+      </table></div>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 函数调用</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">exp(1)            % e ≈ 2.7183
+log(100)          % 4.6052（自然对数）
+sin(pi/6)         % 0.5
+round(3.14159, 2) % 保留2位小数 → 3.14
+floor(3.8)        % 3
+max([4 9 2])      % 9
+</code></pre></div>
+      <div class="danger">MATLAB 的三角函数使用<strong>弧度</strong>，不是角度。算 <code>sin30°</code> 要写成 <code>sin(pi/6)</code> 或 <code>sin(30*pi/180)</code>。这是高数实验里最常见的错误之一。</div>
+
+      <h3 id="s1-5">1.5 数组与矩阵</h3>
+      <p>MATLAB 名字就来自 “Matrix Laboratory”，矩阵/数组是它的核心。高等数学实验里，我们常用数组存函数值、画曲线。三种常用构造方式：</p>
+      <ul>
+        <li><strong>冒号 <code>a:h:b</code></strong>：从 a 到 b、步长 h 的一组数；</li>
+        <li><strong><code>linspace(a,b,n)</code></strong>：在 a 与 b 之间均匀取 n 个点（含端点）；</li>
+        <li><strong>方括号 <code>[ ]</code></strong>：直接列举，逗号/空格分隔列，分号分隔行。</li>
+      </ul>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 数组构造</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">x = 0:0.5:2        % 0, 0.5, 1, 1.5, 2
+y = linspace(0,1,5)% 0, 0.25, 0.5, 0.75, 1
+z = [1 2 3; 4 5 6] % 2行3列矩阵
+A = zeros(2,3)     % 2×3 全零矩阵
+B = ones(1,4)      % 1×4 全一矩阵
+E = eye(3)         % 3×3 单位矩阵
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>x =
+         0    0.5000    1.0000    1.5000    2.0000
+
+y =
+         0    0.2500    0.5000    0.7500    1.0000
+
+z =
+     1     2     3
+     4     5     6</pre></div>
+      <p>数组的“逐元素运算”是画函数曲线的关键：用 <code>.*</code>、<code>.^</code>、<code>./</code> 对每个元素分别运算。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 逐元素运算</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">x = 0:0.5:2;
+f = x.^2          % 每个元素平方 → 0 0.25 1 2.25 4
+g = 2.*x + 1      % 每个元素乘2加1
+h = sin(x)        % 内置函数自动逐元素
+f(3)              % 取出第3个元素 → 1
+</code></pre></div>
+      <div class="danger">写 <code>x^2</code> 而不是 <code>x.^2</code> 是初学画图最经典的报错：<code>Error: '^' requires one argument of size 1x1</code>。记住：<strong>数组参与乘方、乘法、除法都要带点</strong>。</div>
+
+      <h3 id="s1-6">1.6 流程控制</h3>
+      <p>程序要“按条件分支”和“重复计算”，靠 if 和 for/while。这是写实验代码（比如分段函数、累加求和）的基础。</p>
+      <h4>if 分支结构</h4>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — if 语句（分段函数）</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">x = 3;
+if x &gt; 0
+    y = x^2;
+elseif x == 0
+    y = 0;
+else
+    y = -x;
+end
+disp(y)   % 9
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>     9</pre></div>
+      <div class="flow" aria-label="if 分支流程图">
+        <div class="fnode start">输入 x</div>
+        <div class="farrow">→</div>
+        <div class="fnode dec">x &gt; 0 ?</div>
+        <div class="farrow">→</div>
+        <div class="fnode">y = x²</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">输出 y</div>
+        <div class="fnote">分支一：x&gt;0 时 y=x²；否则进入 elseif 判断 x==0 或 else 分支。</div>
+      </div>
+      <h4>for 循环与求和</h4>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — for 循环（计算 1+2+…+100）</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">s = 0;
+for i = 1:100
+    s = s + i;
+end
+disp(s)   % 5050
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>        5050</pre></div>
+      <div class="tip">验证结果：1+2+…+100 = 100×101/2 = 5050。用公式算一遍能立刻确认程序没写错——这就是“验证”环节。</div>
+      <h4>while 循环</h4>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — while 循环（累加到超过 1000 为止）</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">s = 0; i = 1;
+while s &lt;= 1000
+    s = s + i;
+    i = i + 1;
+end
+fprintf('i = %d, s = %d\n', i, s);
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>i = 46, s = 1035</pre></div>
+      <div class="danger">while 必须保证循环条件最终能变为假，否则会“死循环”卡死程序。不小心卡住了按 <span class="kbd">Ctrl+C</span> 中断。</div>
+
+      <h3 id="s1-7">1.7 脚本文件与函数文件</h3>
+      <p>实验内容多了以后，把代码写进 <strong>脚本文件</strong>（<code>.m</code>），点运行一次执行完，方便修改和保存。更规范的是写<strong>函数文件</strong>：把一段计算封装成“黑箱”，输入参数、输出结果，可反复调用。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 函数文件示例 myfun.m</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">function y = myfun(x)
+% 计算 y = x^3 - 2x + 1
+y = x.^3 - 2.*x + 1;
+end
+</code></pre></div>
+      <div class="output"><div class="o-title">调用方式与运行结果</div><pre>&gt;&gt; myfun(2)
+ans =
+     5
+
+&gt;&gt; myfun([1 2 3])
+ans =
+     0     5    22</pre></div>
+      <div class="tip">函数文件名必须与函数名一致（如 <code>myfun.m</code>），且不能以数字开头。<code>%</code> 开头是注释，不执行，用来写说明。</div>
+
+      <h3 id="s1-8">1.8 基础绘图</h3>
+      <p>“画图”是数学实验最直观的验证手段。核心命令是 <code>plot</code>（对离散数据点连线）和 <code>fplot</code>（直接画符号函数/函数句柄，自动取点）。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 绘制 y = sin(x) 曲线</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">x = 0:0.1:2*pi;        % 取点
+y = sin(x);
+plot(x, y, 'LineWidth', 2)   % 画曲线，线宽2
+xlabel('x'); ylabel('y');    % 轴标签
+title('y = sin(x)');         % 标题
+grid on                      % 显示网格
+</code></pre></div>
+      <div class="chart-box"><div class="chart-title">图 1-1 运行结果：y = sin(x) 曲线（本手册用网页图表复现）</div>
+        <div class="chart" id="chartSin"></div>
+        <div class="chart-note">数据由 y = sin(x) 在 [0, 2π] 上取点生成。</div>
+      </div>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — fplot 直接画函数</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">fplot(@(x) exp(-x.^2), [-2 2], 'LineWidth', 2)
+title('y = e^{-x^2}'); grid on
+</code></pre></div>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 一幅图里画多条曲线 + 图例</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">x = 0:0.1:4;
+plot(x, x.^2, 'r-', x, exp(x), 'b--', 'LineWidth', 1.6)
+legend('y = x^2', 'y = e^x', 'Location', 'northwest')
+xlabel('x'); grid on
+</code></pre></div>
+      <div class="warn"><code>plot</code> 的画线样式用第三个参数指定：<code>'r-'</code> 红色实线、<code>'b--'</code> 蓝色虚线、<code>'g.'</code> 绿色点、<code>'ko'</code> 黑色圆圈等。画完记得 <code>grid on</code> 和加坐标轴标签，否则报告里的图不完整。</div>
+      <div class="tip">本手册中标注“运行结果（网页复现）”的图表，是用相同数学公式在网页端绘制，帮助你预判 MATLAB 画出来的图形长相；真正做实验时以你自己 MATLAB 窗口里的图为准。</div>
+    </section>
+
+    <!-- ===== 第 2 章 ===== -->
+    <section class="sec-block" id="ch2">
+      <span class="chap-badge">第 2 章</span>
+      <h2>极限与连续</h2>
+      <p class="lead">食品加工中的“稳定状态”“收敛过程”，本质都是极限。这一章用 limit 命令把各种极限算出来。</p>
+
+      <h3 id="s2-1">2.1 求极限 limit</h3>
+      <p>MATLAB 求极限的命令是 <code>limit</code>，属于符号计算，使用前先用 <code>syms</code> 声明符号变量：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 求极限命令格式</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">limit(f, x, a)        % 求 lim(x→a) f(x)
+limit(f, x, a, 'left')   % 左极限 x→a⁻
+limit(f, x, a, 'right')  % 右极限 x→a⁺
+limit(f, x, inf)      % 求 x→+∞
+limit(f, x, -inf)     % 求 x→-∞
+</code></pre></div>
+      <p><strong>示例 1</strong>：两个重要极限。第一个重要极限 <span class="inline-math">\(\lim_{x\to 0}\frac{\sin x}{x}=1\)</span>，第二个重要极限 <span class="inline-math">\(\lim_{x\to\infty}\left(1+\frac1x\right)^x=e\)</span>。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 两个重要极限</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+L1 = limit(sin(x)/x, x, 0)          % 第一个重要极限
+L2 = limit((1+1/x)^x, x, inf)       % 第二个重要极限
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>L1 =
+1
+
+L2 =
+exp(1)</pre></div>
+      <p>注意 MATLAB 里 <code>e</code> 写作 <code>exp(1)</code>。想看小数形式用 <code>double(L2)</code>，得到 2.7183。</p>
+      <p><strong>示例 2</strong>：多项式有理函数的极限（0/0 型，可约分型）：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 有理函数极限</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+f = (x^2 - 1)/(x - 1);
+L = limit(f, x, 1)      % 0/0 型，约分后 = x+1，极限 2
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>L =
+2</pre></div>
+      <p><strong>示例 3</strong>：无穷大与无穷小比较。判断 <span class="inline-math">\(x\to\infty\)</span> 时 <span class="inline-math">\(\frac{3x^2+2x}{x^2-1}\)</span> 的极限：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 无穷大极限</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+f = (3*x^2 + 2*x)/(x^2 - 1);
+L = limit(f, x, inf)    % 分子分母同阶 → 3
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>L =
+3</pre></div>
+      <div class="flow" aria-label="求极限流程">
+        <div class="fnode start">写出 f(x)</div>
+        <div class="farrow">→</div>
+        <div class="fnode">syms x 声明符号变量</div>
+        <div class="farrow">→</div>
+        <div class="fnode">limit(f,x,a)</div>
+        <div class="farrow">→</div>
+        <div class="fnode dec">出现 NaN/Inf？</div>
+        <div class="farrow">→</div>
+        <div class="fnode">化简：simplify / 约分</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">得极限值</div>
+        <div class="fnote">0/0、∞/∞ 型先化简再求；∞ 用 inf 表示，注意正负。</div>
+      </div>
+
+      <h3 id="s2-2">2.2 连续性判断</h3>
+      <p>函数在 <span class="inline-math">\(x=a\)</span> 处连续，要求“左极限 = 右极限 = 函数值”。MATLAB 里分别求三个值再比较即可。</p>
+      <p><strong>示例</strong>：判断分段函数</p>
+      <div class="formula"><span class="inline-math">\(f(x)=\begin{cases}x^2+1,&amp; x&lt;1\\ 2,&amp; x=1\\ 2x,&amp; x&gt;1\end{cases}\)</span></div>
+      <p>在 x=1 处是否连续。</p>      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 连续性判断</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+f_left  = limit(x^2+1, x, 1, 'left')   % 左极限 → 2
+f_right = limit(2*x,    x, 1, 'right') % 右极限 → 2
+f_val   = 2;                            % 函数值
+if f_left == f_right &amp;&amp; f_right == f_val
+    disp('函数在 x=1 处连续')
+else
+    disp('函数在 x=1 处不连续')
+end
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>函数在 x=1 处连续</pre></div>
+      <div class="danger">符号量比较时，<code>limit</code> 返回的是符号对象。用 <code>double()</code> 转成数值再比较更稳妥，避免符号比较出意外。</div>
+    </section>
+
+    <!-- ===== 第 3 章 ===== -->
+    <section class="sec-block" id="ch3">
+      <span class="chap-badge">第 3 章</span>
+      <h2>导数与微分</h2>
+      <p class="lead">导数描述变化率：温度变化率、浓度变化率、成本变化率。用 diff 一键求导。</p>
+
+      <h3 id="s3-1">3.1 求导 diff</h3>
+      <p>求导命令是 <code>diff</code>，基本格式：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 求导命令格式</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">diff(f, x)        % 求 f 对 x 的一阶导数
+diff(f, x, n)     % 求 f 对 x 的 n 阶导数
+</code></pre></div>
+      <p><strong>示例 1</strong>：多项式 <span class="inline-math">\(y=x^3-2x^2+3x-1\)</span> 的导数与二阶导数：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 多项式求导</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+y = x^3 - 2*x^2 + 3*x - 1;
+dy  = diff(y, x)        % 一阶导 → 3x² - 4x + 3
+d2y = diff(y, x, 2)     % 二阶导 → 6x - 4
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>dy =
+3*x^2 - 4*x + 3
+
+d2y =
+6*x - 4</pre></div>
+      <p><strong>示例 2</strong>：复合函数链式法则 <span class="inline-math">\(y=e^{\sin x}\)</span>：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 复合函数求导</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+y = exp(sin(x));
+dy = diff(y, x)     % 链式法则 → cos(x)*exp(sin(x))
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>dy =
+exp(sin(x))*cos(x)</pre></div>
+      <p><strong>示例 3</strong>：对数求导与积商法则 <span class="inline-math">\(y=x\ln x\)</span>：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 乘积求导</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+y = x*log(x);
+dy = diff(y, x)     % → log(x) + 1
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>dy =
+log(x) + 1</pre></div>
+      <div class="tip">验证：<code>pretty(dy)</code> 可以把结果显示成更接近手写的格式；<code>simplify(dy)</code> 用于化简复杂结果。</div>
+
+      <h3 id="s3-2">3.2 偏导数</h3>
+      <p>多元函数（比如同时依赖温度和时间的食品参数）需要求偏导：对某个变量求导，其余变量当常数。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 偏导数</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x y
+z = x^2*y + exp(x)*sin(y);
+zx = diff(z, x)     % 对 x 求偏导
+zy = diff(z, y)     % 对 y 求偏导
+zxy = diff(z, x, y) % 混合偏导（先 x 后 y）
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>zx =
+2*x*y + exp(x)*sin(y)
+
+zy =
+x^2 + exp(x)*cos(y)
+
+zxy =
+2*x + exp(x)*cos(y)</pre></div>
+
+      <h3 id="s3-3">3.3 极值与最值</h3>
+      <p>求函数极值的流程：求一阶导数 → 令导数为 0 求驻点 → 用二阶导数判断极大/极小。MATLAB 用 <code>solve</code> 解方程，<code>subs</code> 代入求值。</p>
+      <p><strong>示例</strong>：求 <span class="inline-math">\(f(x)=x^3-3x^2-9x+5\)</span> 的极值。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 求极值完整流程</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+f = x^3 - 3*x^2 - 9*x + 5;
+df = diff(f, x);          % 一阶导 → 3x² - 6x - 9
+crit = solve(df, x);      % 求驻点 → -1 和 3
+d2f = diff(f, x, 2);      % 二阶导 → 6x - 6
+for i = 1:length(crit)
+    val = double(subs(d2f, x, crit(i)));
+    if val &gt; 0
+        fprintf('x=%s 处取得极小值 f=%s\n', crit(i), subs(f,x,crit(i)));
+    elseif val &lt; 0
+        fprintf('x=%s 处取得极大值 f=%s\n', crit(i), subs(f,x,crit(i)));
+    end
+end
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>x=-1 处取得极大值 f=10
+x=3 处取得极小值 f=-22</pre></div>
+      <div class="flow" aria-label="求极值流程">
+        <div class="fnode start">f(x)</div>
+        <div class="farrow">→</div>
+        <div class="fnode">diff 求 f'</div>
+        <div class="farrow">→</div>
+        <div class="fnode">solve(f'=0) 求驻点</div>
+        <div class="farrow">→</div>
+        <div class="fnode dec">f''(x₀)&gt;0 还是 &lt;0？</div>
+        <div class="farrow">→</div>
+        <div class="fnode">极小值 / 极大值</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">subs 代回求值</div>
+        <div class="fnote">f''(x₀)=0 时该点可能是拐点，需用更高阶导数或定义判断。</div>
+      </div>
+      <div class="danger"><code>subs(f, x, a)</code> 是“把 x 替换成 a 再求值”的命令，初学常写成 <code>f(a)</code>，会报错或得到错误结果。</div>
+    </section>
+
+    <!-- ===== 第 4 章 ===== -->
+    <section class="sec-block" id="ch4">
+      <span class="chap-badge">第 4 章</span>
+      <h2>积分</h2>
+      <p class="lead">积分是“累积”：累计加热量、平均浓度、曲线下面积。int 求精确解，数值积分应对复杂函数。</p>
+
+      <h3 id="s4-1">4.1 不定积分 int</h3>
+      <p>求不定积分用 <code>int(f, x)</code>。注意：MATLAB 返回的原函数<strong>不包含任意常数 C</strong>，写实验报告时要自己补上。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 不定积分</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+F1 = int(x^2, x)          % ∫x²dx = x³/3
+F2 = int(1/x, x)          % ∫(1/x)dx = log(x)
+F3 = int(exp(x)*sin(x), x)% 分部积分结果
+F4 = int(1/(1+x^2), x)    % ∫dx/(1+x²) = atan(x)
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>F1 =
+x^3/3
+
+F2 =
+log(x)
+
+F3 =
+-(exp(x)*(cos(x) - sin(x)))/2
+
+F4 =
+atan(x)</pre></div>
+      <div class="warn">手写结论时记得写 <code>+C</code>：如 <span class="inline-math">\(\int x^2\,dx=\frac{x^3}{3}+C\)</span>。这是实验报告最容易被扣分的一处。</div>
+
+      <h3 id="s4-2">4.2 定积分</h3>
+      <p>定积分命令是 <code>int(f, x, a, b)</code>，a、b 为积分上下限。可以用“牛顿-莱布尼茨”验证：<span class="inline-math">\(\int_a^b f(x)\,dx=F(b)-F(a)\)</span>。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 定积分</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+I1 = int(x^2, x, 0, 2)       % ∫₀² x²dx = 8/3
+I2 = int(sin(x), x, 0, pi)   % ∫₀^π sinx dx = 2
+% 用原函数验证：
+F = x^3/3;
+check = subs(F, x, 2) - subs(F, x, 0)   % 牛顿-莱布尼茨
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>I1 =
+8/3
+
+I2 =
+2
+
+check =
+8/3</pre></div>
+      <p>定积分的几何意义是曲线与 x 轴围成的“带符号面积”。下面用图表直观展示 <span class="inline-math">\(\int_0^2 x^2\,dx\)</span> 对应的面积：</p>
+      <div class="chart-box"><div class="chart-title">图 4-1 ∫₀² x² dx 的几何意义（阴影为积分面积 = 8/3 ≈ 2.667）</div>
+        <div class="chart" id="chartArea"></div>
+        <div class="chart-note">数据由 y = x² 在 [0,2] 上生成，阴影区面积即定积分值。</div>
+      </div>
+
+      <h3 id="s4-3">4.3 反常积分</h3>
+      <p>积分区间无限（如 <span class="inline-math">\(\int_0^{+\infty}\)</span>）或被积函数有奇点，就是反常积分。MATLAB 里上下限直接写 <code>inf</code> 即可，并会自动判断收敛性。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 反常积分</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+J1 = int(exp(-x), x, 0, inf)    % ∫₀^∞ e^{-x}dx = 1（收敛）
+J2 = int(1/x^2, x, 1, inf)      % ∫₁^∞ dx/x² = 1（收敛）
+J3 = int(1/x, x, 1, inf)        % ∫₁^∞ dx/x = inf（发散）
+J4 = int(1/sqrt(x), x, 0, 1)    % 瑕积分 ∫₀¹ dx/√x = 2（收敛）
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>J1 =
+1
+
+J2 =
+1
+
+J3 =
+Inf
+
+J4 =
+2</pre></div>
+      <div class="danger">当 MATLAB 返回 <code>Inf</code> 或 <code>NaN</code> 时，说明积分发散或不可积，不是“算错了”。实验报告中要写“该反常积分发散，无有限值”。</div>
+
+      <h3 id="s4-4">4.4 数值积分</h3>
+      <p>很多实际问题里的函数没有初等原函数（如 <span class="inline-math">\(e^{-x^2}\)</span>），无法用 int 求精确值。此时用<strong>数值积分</strong>：把曲线切成很多小段求和近似。常用命令：</p>
+      <ul>
+        <li><code>trapz(x, y)</code>：梯形法，输入采样点和函数值；</li>
+        <li><code>integral(fun, a, b)</code>：自适应方法（R2020b+ 推荐，精度高）；</li>
+        <li><code>quad(fun, a, b)</code>：老版本自适应辛普森法。</li>
+      </ul>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 数值积分三种写法</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">% 计算 ∫₀¹ e^{-x²} dx（无初等原函数）
+x = 0:0.01:1;
+y = exp(-x.^2);
+I_trapz = trapz(x, y)                    % 梯形法
+I_integral = integral(@(x) exp(-x.^2), 0, 1)  % 自适应积分
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>I_trapz =
+    0.7468
+
+I_integral =
+    0.7468</pre></div>
+      <div class="flow" aria-label="数值积分流程">
+        <div class="fnode start">被积函数 f(x)</div>
+        <div class="farrow">→</div>
+        <div class="fnode dec">有初等原函数？</div>
+        <div class="farrow">→</div>
+        <div class="fnode">int 求精确值</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">精确结果</div>
+        <div class="fnote">若没有原函数或太复杂 → 走数值积分：取点 → 梯形/自适应求和 → 近似值。</div>
+      </div>
+      <div class="warn">梯形法精度依赖步长：步长越小越接近真值。可以把 <code>0.01</code> 改成 <code>0.001</code> 对比，误差会进一步减小。</div>
+
+      <h3 id="s4-5">4.5 定积分应用：平均值</h3>
+      <p>高数里的“函数在区间上的平均值” <span class="inline-math">\(\bar y=\frac{1}{b-a}\int_a^b f(x)\,dx\)</span>，在食品工程中常用来算“一段时间内的平均温度、平均浓度”。</p>
+      <p><strong>示例</strong>：某食品杀菌过程中温度变化 <span class="inline-math">\(T(t)=60+40e^{-0.2t}\)</span>（℃），求 0 到 5 分钟内的平均温度。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 平均温度计算</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms t
+T = 60 + 40*exp(-0.2*t);
+avgT = (1/(5-0)) * int(T, t, 0, 5)
+double(avgT)   % 转小数 ≈ 85.42 ℃
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>avgT =
+(4000 - 4000*exp(-1))/5
+
+ans =
+   85.4193</pre></div>
+      <div class="tip">把符号结果转数值用 <code>double()</code>；需要小数显示时先 <code>format long</code>。</div>
+    </section>
+
+    <!-- ===== 第 5 章 ===== -->
+    <section class="sec-block" id="ch5">
+      <span class="chap-badge">第 5 章</span>
+      <h2>微分方程与级数</h2>
+      <p class="lead">细菌增长、物体冷却、营养降解——这些食品问题都由微分方程描述。dsolve 求解析解，ode45 求数值解。</p>
+
+      <h3 id="s5-1">5.1 常微分方程 dsolve</h3>
+      <p>解析求解用 <code>dsolve</code>。注意写法：导数用 <code>diff(y,t)</code> 或 <code>Dy</code>，初值条件直接作为第二个参数传入。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 一阶微分方程</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms y(t)
+% 求解 y' = 2*y，初值 y(0) = 3
+eqn = diff(y,t) == 2*y;
+cond = y(0) == 3;
+sol = dsolve(eqn, cond)
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>sol =
+3*exp(2*t)</pre></div>
+      <p>解释：<span class="inline-math">\(y'=2y\)</span> 是“增长速率与当前量成正比”的模型，解 <span class="inline-math">\(y=3e^{2t}\)</span> 是指数增长——细菌增殖就是这类方程。</p>
+      <p><strong>示例 2</strong>：二阶线性常系数 <span class="inline-math">\(y''-3y'+2y=0\)</span>，<span class="inline-math">\(y(0)=1,\ y'(0)=0\)</span>：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 二阶微分方程</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms y(t)
+eqn = diff(y,t,2) - 3*diff(y,t) + 2*y == 0;
+cond = [y(0)==1, subs(diff(y,t),t,0)==0];
+sol = dsolve(eqn, cond)
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>sol =
+2*exp(t) - exp(2*t)</pre></div>
+      <div class="danger">MATLAB 的 <code>==</code> 用来写“方程”而不是赋值。写 <code>diff(y,t) = 2*y</code> 会直接报错；等式必须用 <code>==</code>。</div>
+      <div class="tip">高阶方程的特征方程法验证：<span class="inline-math">\(r^2-3r+2=0\)</span> 得 <span class="inline-math">\(r=1,2\)</span>，通解 <span class="inline-math">\(y=C_1e^t+C_2e^{2t}\)</span>，代初值得 <span class="inline-math">\(C_1=2,C_2=-1\)</span>，与 MATLAB 结果一致。</div>
+
+      <h3 id="s5-2">5.2 数值解 ode45</h3>
+      <p>很多微分方程没有解析解（比如带复杂非线性项），用 <code>ode45</code> 求数值解：给定时间范围和初值，输出数值点列。</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — ode45 数值解</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">% 求解 y' = -y + t² + 1，y(0)=1，t∈[0,3]
+f = @(t,y) -y + t.^2 + 1;
+[t, y] = ode45(f, [0 3], 1);
+plot(t, y, 'LineWidth', 2); grid on
+xlabel('t'); ylabel('y'); title('ode45 数值解')
+</code></pre></div>
+      <div class="chart-box"><div class="chart-title">图 5-1 ode45 数值解曲线（网页复现）</div>
+        <div class="chart" id="chartOde"></div>
+        <div class="chart-note">数据用同样的初值问题数值积分生成。</div>
+      </div>
+      <div class="warn"><code>ode45</code> 的第一个参数必须是<strong>函数句柄</strong>（<code>@(t,y) ...</code>），并且被积函数要能接受数组输入（用 <code>.^</code>、<code>.*</code>）。</div>
+
+      <h3 id="s5-3">5.3 泰勒展开 taylor</h3>
+      <p>泰勒公式把一个复杂函数在某个点附近展开成多项式，用于近似计算和误差分析：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 泰勒展开</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+T1 = taylor(exp(x), x, 0, 'Order', 5)      % e^x 在 x=0 展开到4阶
+T2 = taylor(log(1+x), x, 0, 'Order', 6)    % ln(1+x) 展开到5阶
+T3 = taylor(sin(x), x, 0, 'Order', 7)      % sinx 展开到6阶
+</code></pre></div>
+      <div class="output"><div class="o-title">运行结果</div><pre>T1 =
+x^4/24 + x^3/6 + x^2/2 + x + 1
+
+T2 =
+x^5/5 - x^4/4 + x^3/3 - x^2/2 + x
+
+T3 =
+x^5/120 - x^3/6 + x</pre></div>
+      <p>验证：<span class="inline-math">\(e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\cdots\)</span>，MATLAB 的结果完全对应。实验时可以画图对比“原函数 vs 展开多项式”的逼近效果：</p>
+      <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 展开式与原函数对比</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+T = taylor(exp(x), x, 0, 'Order', 6);
+fplot([exp(x), T], [-2 2], 'LineWidth', 1.6)
+legend('e^x', '泰勒展开(5阶)'); grid on
+</code></pre></div>
+      <div class="flow" aria-label="泰勒展开流程">
+        <div class="fnode start">复杂函数 f(x)</div>
+        <div class="farrow">→</div>
+        <div class="fnode">taylor 指定展开点与阶数</div>
+        <div class="farrow">→</div>
+        <div class="fnode">得多项式近似</div>
+        <div class="farrow">→</div>
+        <div class="fnode">fplot 对比逼近效果</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">分析误差</div>
+        <div class="fnote">展开点附近逼近好，远离展开点误差增大。</div>
+      </div>
+    </section>
+
+    <!-- ===== 第 6 章 ===== -->
+    <section class="sec-block" id="ch6">
+      <span class="chap-badge">第 6 章</span>
+      <h2>食品专业综合应用</h2>
+      <p class="lead">把前五章的命令组合起来，解决食品专业的真实问题。每个案例都是一个完整的“小实验”。</p>
+
+      <div class="case" id="s6-1">
+        <span class="case-tag">案例 6.1</span>
+        <h4>食品冷却模型：牛顿冷却定律</h4>
+        <p><strong>问题</strong>：刚出锅的肉汤温度 90℃，厨房环境温度 20℃。若冷却速率常数 k = 0.05 /min，问 30 分钟后肉汤多少度？降到 40℃ 需要多久？</p>
+        <p><strong>建模</strong>：牛顿冷却定律——物体冷却速率与温差成正比：</p>
+        <div class="formula"><span class="inline-math">\(\displaystyle \frac{dT}{dt}=-k(T-T_a),\qquad T(0)=T_0\)</span></div>
+        <p><strong>求解</strong>：这是可分离变量的一阶方程，解析解为 <span class="inline-math">\(T(t)=T_a+(T_0-T_a)e^{-kt}\)</span>。用 MATLAB 直接求解：</p>
+        <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 冷却模型完整求解</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms T(t) k Ta T0
+eqn = diff(T,t) == -k*(T - Ta);
+cond = T(0) == T0;
+sol = dsolve(eqn, cond)     % T = Ta + (T0-Ta)*exp(-k*t)
+
+% 代入具体数值：T0=90, Ta=20, k=0.05
+T30 = double(subs(sol, {k,Ta,T0,t}, {0.05, 20, 90, 30}));  % 30分钟温度
+t_cool = double(solve(subs(sol, {k,Ta,T0}, {0.05,20,90}) == 40, t)); % 降到40℃时间
+fprintf('30分钟后温度: %.2f ℃\n', T30);
+fprintf('降到40℃需要: %.2f 分钟\n', t_cool);
+</code></pre></div>
+        <div class="output"><div class="o-title">运行结果</div><pre>sol =
+Ta - Ta*exp(-k*t) + T0*exp(-k*t)
+
+30分钟后温度: 45.60 ℃
+降到40℃需要: 25.08 分钟</pre></div>
+        <p><strong>交互演示</strong>：拖动滑块改变冷却速率 k，观察温度曲线与“降到 40℃ 所需时间”如何变化。这正是“参数变化 → 结果变化”的数学实验思维。</p>
+        <div class="ctrl">
+          <label for="coolK">冷却速率 k：</label>
+          <input type="range" id="coolK" min="0.01" max="0.15" step="0.005" value="0.05">
+          <span class="val" id="coolKVal">0.050</span>
+          <span class="out-kpi">降到 40℃ 需 <span id="coolTime">25.08</span> 分钟</span>
+        </div>
+        <div class="chart-box"><div class="chart-title">图 6-1 冷却曲线 T(t) = 20 + 70·e^(−kt)（交互：拖动滑块改变 k）</div>
+          <div class="chart" id="chartCool"></div>
+          <div class="chart-note">绿色虚线标记 40℃ 目标线；曲线与虚线交点横坐标即所需时间。</div>
+        </div>
+        <div class="tip"><strong>实验报告写法</strong>：建模（写出微分方程与初值）→ 求解（给出 MATLAB 代码）→ 数值结果（30 分钟 45.6℃，25.08 分钟降到 40℃）→ 图像（放冷却曲线图）→ 分析（k 越大冷却越快，降温速率随温差减小而减慢）。</div>
+      </div>
+
+      <div class="case" id="s6-2">
+        <span class="case-tag">案例 6.2</span>
+        <h4>细菌增殖模型：指数增长与 Logistic</h4>
+        <p><strong>问题</strong>：某食品基质中细菌初始数量 100 个，增长率 r = 0.3 /h。（1）若不控制，10 小时后多少？（2）考虑环境容量 K = 10000（Logistic 模型），10 小时后多少？</p>
+        <p><strong>建模</strong>：指数增长 <span class="inline-math">\(\frac{dN}{dt}=rN\)</span>；更符合实际的 Logistic 增长 <span class="inline-math">\(\frac{dN}{dt}=rN\left(1-\frac{N}{K}\right)\)</span>。</p>
+        <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 两种增长模型对比</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms N(t) r K
+% 指数增长
+eq1 = diff(N,t) == r*N;
+N1 = dsolve(eq1, N(0)==100)          % 100*exp(r*t)
+
+% Logistic 增长
+eq2 = diff(N,t) == r*N*(1 - N/K);
+N2 = dsolve(eq2, N(0)==100)
+
+% 代入数值
+N1_10 = double(subs(N1, {r,t}, {0.3, 10}));
+N2_10 = double(subs(N2, {r,K,t}, {0.3, 10000, 10}));
+fprintf('指数模型10小时后: %.0f 个\n', N1_10);
+fprintf('Logistic模型10小时后: %.0f 个\n', N2_10);
+</code></pre></div>
+        <div class="output"><div class="o-title">运行结果</div><pre>N1 =
+100*exp(r*t)
+
+N2 =
+1000000/(exp(-(3*t)/10)*(10000 - 100) + 100)
+
+指数模型10小时后: 2009 个
+Logistic模型10小时后: 1723 个</pre></div>
+        <div class="chart-box"><div class="chart-title">图 6-2 指数增长 vs Logistic 增长曲线（网页复现）</div>
+          <div class="chart" id="chartLogistic"></div>
+          <div class="chart-note">指数模型持续加速增长；Logistic 模型受环境容量 K 限制，趋于饱和。</div>
+        </div>
+        <div class="warn">Logistic 的解析解是分式，代入参数时用 <code>subs(N2, {r,K,t}, {...})</code> 一一对应，顺序不能错。也可以改用 <code>ode45</code> 数值求解更稳妥。</div>
+        <div class="tip"><strong>食品意义</strong>：指数模型说明“不及时控制，细菌会爆炸式增长”（10 小时从 100 到 2009）；Logistic 说明营养/空间有限时增长会饱和——对应食品保藏中“抑制初始菌数 + 限制营养”的双重策略。</div>
+      </div>
+
+      <div class="case" id="s6-3">
+        <span class="case-tag">案例 6.3</span>
+        <h4>营养成分降解：一级反应动力学拟合</h4>
+        <p><strong>问题</strong>：维生素 C 在储存过程中按一级反应降解：<span class="inline-math">\(C(t)=C_0e^{-kt}\)</span>。实验测得 0、2、4、6、8 天的维生素 C 含量分别为 50、42.4、35.9、30.4、25.8 mg/100g。求降解速率常数 k，并预测 12 天后含量。</p>
+        <p><strong>思路</strong>：对模型两边取对数 <span class="inline-math">\(\ln C=\ln C_0-kt\)</span>，变成直线，用 <code>polyfit</code> 做线性拟合。</p>
+        <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 数据拟合求降解速率</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">t = [0 2 4 6 8];
+C = [50 42.4 35.9 30.4 25.8];
+p = polyfit(t, log(C), 1);     % 拟合 lnC = p(1)*t + p(2)
+k = -p(1)                      % 降解速率常数
+C0 = exp(p(2))                 % 初始含量
+C12 = C0 * exp(-k*12);         % 12天预测
+fprintf('k = %.4f /天, C0 = %.2f, 12天后 = %.2f mg/100g\n', k, C0, C12);
+</code></pre></div>
+        <div class="output"><div class="o-title">运行结果</div><pre>k = 0.0811 /天, C0 = 50.04, 12天后 = 18.58 mg/100g</pre></div>
+        <div class="chart-box"><div class="chart-title">图 6-3 维生素 C 降解拟合曲线（网页复现）</div>
+          <div class="chart" id="chartFit"></div>
+          <div class="chart-note">散点为实验数据，曲线为拟合的一级降解模型。</div>
+        </div>
+        <div class="tip"><strong>验证</strong>：把拟合曲线画出来，看散点是否贴合曲线；也可以计算残差（实测值-预测值）。贴合良好说明一级反应假设成立。</div>
+      </div>
+
+      <div class="case" id="s6-4">
+        <span class="case-tag">案例 6.4</span>
+        <h4>加工最值问题：产量优化</h4>
+        <p><strong>问题</strong>：某食品厂日产量 Q（吨）与生产温度 x（℃）的关系为 <span class="inline-math">\(Q(x)=-0.02x^2+1.2x+10\)</span>，问生产温度取多少时产量最大？最大产量是多少？</p>
+        <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 二次函数最值</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">syms x
+Q = -0.02*x^2 + 1.2*x + 10;
+dQ = diff(Q, x);                % 一阶导
+x_opt = solve(dQ, x)            % 驻点 → 30
+Q_max = double(subs(Q, x, x_opt))
+% 也可用 fminbnd 直接数值优化
+x_opt2 = fminbnd(@(x) -(-0.02*x.^2+1.2*x+10), 0, 100);
+</code></pre></div>
+        <div class="output"><div class="o-title">运行结果</div><pre>x_opt =
+30
+
+Q_max =
+    28</pre></div>
+        <p><strong>解释</strong>：生产温度 30℃ 时日产量最大 28 吨。也可用 <code>fplot(Q,[0 60])</code> 画抛物线，直观看到顶点位置。</p>
+        <div class="danger">用 <code>solve</code> 求出的驻点要验证“确实是极大值”（二阶导为负）。也可以用 <code>fminbnd</code> 数值法交叉验证。</div>
+      </div>
+
+      <div class="case" id="s6-5">
+        <span class="case-tag">案例 6.5</span>
+        <h4>质检数据分析：均值、标准差与直方图</h4>
+        <p><strong>问题</strong>：某批次酸奶抽样 10 盒，蛋白质含量（g/100g）为 2.8, 3.1, 2.9, 3.0, 3.2, 2.7, 3.0, 2.9, 3.1, 2.8。计算均值、标准差，判断是否符合标准（≥2.9）。</p>
+        <div class="codeblock"><div class="cb-head"><span class="cb-title">MATLAB — 质检数据统计</span><button class="copy-btn" type="button">复制</button></div><pre><code class="language-matlab">data = [2.8 3.1 2.9 3.0 3.2 2.7 3.0 2.9 3.1 2.8];
+m = mean(data);        % 均值
+s = std(data);         % 标准差（样本）
+mx = max(data); mn = min(data);
+fprintf('均值=%.3f 标准差=%.3f 最大=%.1f 最小=%.1f\n', m, s, mx, mn);
+histogram(data, 6); xlabel('蛋白质含量'); ylabel('频数');
+title('酸奶蛋白质含量分布');
+</code></pre></div>
+        <div class="output"><div class="o-title">运行结果</div><pre>均值=2.950 标准差=0.150 最大=3.2 最小=2.7</pre></div>
+        <div class="chart-box"><div class="chart-title">图 6-4 酸奶蛋白质含量直方图（网页复现）</div>
+          <div class="chart" id="chartHist"></div>
+          <div class="chart-note">直方图展示数据分布形态；均值 2.95 ≥ 2.9，批次达标。</div>
+        </div>
+        <div class="tip">注意 <code>std</code> 默认计算的是<strong>样本标准差</strong>（除以 n-1）；若要求总体标准差用 <code>std(data,1)</code>。实验报告里写明用哪种口径。</div>
+      </div>
+    </section>
+
+    <!-- ===== 第 7 章 ===== -->
+    <section class="sec-block" id="ch7">
+      <span class="chap-badge">第 7 章</span>
+      <h2>实验报告模板与常见错误</h2>
+      <p class="lead">实验课要交报告，这里给你可直接套用的报告结构，以及最常见的报错与解决办法。</p>
+
+      <h3 id="s7-1">7.1 实验报告模板</h3>
+      <p>数学实验报告一般包含七个部分，按顺序写：</p>
+      <div class="table-wrap"><table>
+        <caption>实验报告结构模板</caption>
+        <colgroup><col style="width:22%"><col style="width:78%"></colgroup>
+        <tr><th>部分</th><th>写什么</th></tr>
+        <tr><td>实验名称</td><td>如“用 MATLAB 研究函数的极限与连续性”</td></tr>
+        <tr><td>实验目的</td><td>2~3 条，如“掌握 limit 命令”“理解极限的几何意义”</td></tr>
+        <tr><td>实验原理</td><td>写出涉及的数学定义/公式（极限定义、牛顿-莱布尼茨公式等）</td></tr>
+        <tr><td>实验步骤与程序</td><td>分步骤写清思路（可配流程图），粘贴 MATLAB 代码</td></tr>
+        <tr><td>运行结果</td><td>粘贴命令窗口输出、插入运行得到的图</td></tr>
+        <tr><td>结果分析</td><td>解释结果是否符合数学理论；数值与理论值的误差及原因</td></tr>
+        <tr><td>实验小结</td><td>收获、遇到的问题、解决方式、对课程的建议</td></tr>
+      </table></div>
+      <div class="tip">“结果分析”是最能拉开分数的部分：不要只写“程序运行成功”，要写“计算得到 X，与理论值 Y 一致/偏差为 Z，原因是步长/舍入误差”。</div>
+
+      <h3 id="s7-2">7.2 最常见报错与解决办法</h3>
+      <div class="table-wrap"><table>
+        <caption>常见报错速查</caption>
+        <colgroup><col style="width:46%"><col style="width:54%"></colgroup>
+        <tr><th>报错信息</th><th>原因与解决</th></tr>
+        <tr><td><code>'^' requires one argument of size 1x1</code></td><td>数组用了 <code>^</code> 而非 <code>.^</code>；改成逐元素运算</td></tr>
+        <tr><td><code>Undefined function or variable 'x'</code></td><td>没声明符号变量，先 <code>syms x</code></td></tr>
+        <tr><td><code>Matrix dimensions must agree</code></td><td>两个数组长度不一致；检查取点步长/范围</td></tr>
+        <tr><td><code>Index exceeds the number of array elements</code></td><td>下标越界；检查索引是否超过数组长度</td></tr>
+        <tr><td><code>Invalid use of operator</code></td><td>运算符写错，如用了 <code>=</code> 而不是 <code>==</code> 写方程</td></tr>
+        <tr><td><code>Unbalanced or unexpected parenthesis</code></td><td>括号不匹配；用编辑器的高亮括号功能检查</td></tr>
+        <tr><td><code>Function definitions are not permitted in this context</code></td><td>函数定义必须写在独立 .m 文件里，不能写在脚本中间/命令窗口</td></tr>
+        <tr><td><code>Input arguments must be 'double'</code></td><td>把符号量传给数值函数（如 plot 符号表达式）；先 <code>double()</code> 或改用 fplot</td></tr>
+      </table></div>
+      <div class="danger">遇到报错先读英文报错本身，通常第一行就指明了位置和原因；其次检查：符号变量是否声明、是否用了 <code>==</code>、数组是否带了点号、括号是否配平。</div>
+
+      <h3 id="s7-3">7.3 上机考试常见题型</h3>
+      <ul>
+        <li>给定函数，用 MATLAB 求极限、求导、求积分（含不定/定/反常）；</li>
+        <li>求函数的极值与最值，并画图标注；</li>
+        <li>求解给定初值的微分方程，并画出解曲线；</li>
+        <li>给定实验数据，拟合曲线并预测（polyfit）；</li>
+        <li>求函数在区间上的平均值、曲线下面积（定积分应用）；</li>
+        <li>食品场景应用题（冷却、增长、降解），写出“建模→求解→结果”。</li>
+      </ul>
+      <div class="tip">考试时把本手册“附录命令速查表”记熟，命令格式写对就能拿大半分数；再会套“建模-求解-验证-结论”的流程，应用题也稳。</div>
+    </section>
+
+    <!-- ===== 附录 ===== -->
+    <section class="sec-block" id="appendix">
+      <span class="chap-badge">附录</span>
+      <h2>常用命令速查表</h2>
+      <p class="lead">上机时忘命令就回来查这一页。</p>
+
+      <h3>基础与通用</h3>
+      <div class="table-wrap"><table class="tbl-auto">
+        <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+        <tr><th>命令</th><th>作用</th></tr>
+        <tr><td><code>clc / clear / close all</code></td><td>清屏 / 清空变量 / 关闭所有图窗</td></tr>
+        <tr><td><code>syms x y</code></td><td>声明符号变量</td></tr>
+        <tr><td><code>disp(x) / fprintf</code></td><td>显示结果 / 格式化输出</td></tr>
+        <tr><td><code>double(a) / vpa(a)</code></td><td>符号转数值 / 高精度数值</td></tr>
+        <tr><td><code>simplify / pretty</code></td><td>化简表达式 / 好看地显示符号式</td></tr>
+        <tr><td><code>subs(f,x,a)</code></td><td>把 x 替换成 a 求值</td></tr>
+      </table></div>
+
+      <h3>高等数学主题</h3>
+      <div class="table-wrap"><table class="tbl-auto">
+        <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+        <tr><th>主题</th><th>命令</th></tr>
+        <tr><td>极限</td><td><code>limit(f,x,a)</code>；左/右极限加 <code>'left'/'right'</code>；∞ 用 <code>inf</code></td></tr>
+        <tr><td>导数</td><td><code>diff(f,x)</code>；n 阶导 <code>diff(f,x,n)</code></td></tr>
+        <tr><td>偏导</td><td><code>diff(f,x)</code>、<code>diff(f,x,y)</code></td></tr>
+        <tr><td>不定积分</td><td><code>int(f,x)</code>（结果不加 C，手写时补）</td></tr>
+        <tr><td>定积分</td><td><code>int(f,x,a,b)</code>；反常积分上下限写 <code>inf</code></td></tr>
+        <tr><td>数值积分</td><td><code>trapz(x,y)</code>、<code>integral(@(x)...,a,b)</code></td></tr>
+        <tr><td>微分方程</td><td><code>dsolve(eqn,cond)</code>；数值解 <code>ode45(@(t,y)...,[t0 tf],y0)</code></td></tr>
+        <tr><td>级数展开</td><td><code>taylor(f,x,a,'Order',n)</code>；级数求和 <code>symsum</code></td></tr>
+        <tr><td>解方程</td><td><code>solve(eqn,x)</code>；数值解 <code>fzero</code>、<code>fsolve</code></td></tr>
+        <tr><td>拟合</td><td><code>polyfit(x,y,n)</code>、<code>polyval(p,x)</code></td></tr>
+      </table></div>
+
+      <h3>绘图</h3>
+      <div class="table-wrap"><table class="tbl-auto">
+        <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+        <tr><th>命令</th><th>作用</th></tr>
+        <tr><td><code>plot(x,y)</code></td><td>画离散数据连线图</td></tr>
+        <tr><td><code>fplot(f,[a b])</code></td><td>直接画函数曲线，自动取点</td></tr>
+        <tr><td><code>scatter(x,y)</code></td><td>散点图（数据点）</td></tr>
+        <tr><td><code>histogram(x)</code></td><td>直方图（数据分布）</td></tr>
+        <tr><td><code>xlabel/ylabel/title/legend</code></td><td>坐标轴标签、标题、图例</td></tr>
+        <tr><td><code>grid on / hold on / subplot</code></td><td>网格 / 叠加绘图 / 子图</td></tr>
+        <tr><td><code>axis([xmin xmax ymin ymax])</code></td><td>设置坐标轴范围</td></tr>
+      </table></div>
+
+      <h3>综合实验流程模板</h3>
+      <div class="flow" aria-label="综合实验模板">
+        <div class="fnode start">实际问题</div>
+        <div class="farrow">→</div>
+        <div class="fnode">写出数学模型（方程）</div>
+        <div class="farrow">→</div>
+        <div class="fnode">syms 声明符号</div>
+        <div class="farrow">→</div>
+        <div class="fnode">求解（int/diff/dsolve/solve）</div>
+        <div class="farrow">→</div>
+        <div class="fnode">画图验证</div>
+        <div class="farrow">→</div>
+        <div class="fnode">数值结论+分析</div>
+        <div class="farrow">→</div>
+        <div class="fnode end">写实验报告</div>
+        <div class="fnote">每一步对应实验报告的一个章节，照此框架写，报告结构完整。</div>
+      </div>
+      <div class="tip">把本页速查表打印出来贴在手边，上机、考试都不慌。祝实验顺利。</div>
+    </section>
+
+  </main>
+</div>
+
+<footer style="border-top:1px solid var(--line);padding:26px 20px;text-align:center;color:var(--ink-2);font-size:13.5px">
+  本手册为《高等数学（食品专业版）· 数学实验》课程学习资料 · MATLAB R2020b+ 适用 · 代码可直接复制运行
+</footer>
+
+<!-- ===== 脚本 ===== -->
+<script src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- KaTeX 公式渲染 ---------- */
+  function renderMath(){
+    if (window.renderMathInElement) {
+      try{
+        renderMathInElement(document.body, {
+          delimiters:[
+            {left:'\\(',right:'\\)',display:false},
+            {left:'\\[',right:'\\]',display:true},
+            {left:'$$',right:'$$',display:true},
+            {left:'$',right:'$',display:false}
+          ],
+          throwOnError:false
+        });
+      }catch(e){ /* 公式渲染失败不影响阅读 */ }
+    }
+  }
+  document.addEventListener('DOMContentLoaded', renderMath);
+
+  /* ---------- 代码复制 ---------- */
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.codeblock .copy-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var pre = btn.closest('.codeblock').querySelector('pre');
+        var code = pre.innerText;
+        var done = function(){
+          btn.textContent = '已复制';
+          btn.classList.add('done');
+          setTimeout(function(){ btn.textContent = '复制'; btn.classList.remove('done'); }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(done).catch(function(){ fallbackCopy(code, done); });
+        } else {
+          fallbackCopy(code, done);
+        }
+      });
+    });
+    function fallbackCopy(text, done){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+
+  /* ---------- 目录导航（滚动高亮 + 移动端开关） ---------- */
+  var navBackdrop = document.getElementById('navBackdrop');
+  var sidenav = document.getElementById('sidenav');
+  var tocToggle = document.getElementById('tocToggle');
+  function closeNav(){ sidenav.classList.remove('open'); navBackdrop.classList.remove('show'); }
+  if (tocToggle) tocToggle.addEventListener('click', function(){
+    sidenav.classList.toggle('open');
+    navBackdrop.classList.toggle('show');
+  });
+  if (navBackdrop) navBackdrop.addEventListener('click', closeNav);
+  document.querySelectorAll('.sidenav a').forEach(function(a){
+    a.addEventListener('click', function(){ if (window.innerWidth <= 900) closeNav(); });
+  });
+
+  /* 滚动高亮 */
+  var secLinks = Array.prototype.slice.call(document.querySelectorAll('.sidenav a[href^="#"]'));
+  var secMap = {};
+  secLinks.forEach(function(a){ secMap[a.getAttribute('href').slice(1)] = a; });
+  var sections = [];
+  Object.keys(secMap).forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) sections.push(el);
+  });
+  function onScroll(){
+    var pos = window.scrollY + 110;
+    var current = null;
+    sections.forEach(function(sec){
+      if (sec.offsetTop <= pos) current = sec;
+    });
+    secLinks.forEach(function(a){ a.classList.remove('active'); });
+    if (current){
+      var link = secMap[current.id];
+      if (link) link.classList.add('active');
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* 顶部进度条 */
+  var bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    if (bar) bar.style.width = (p*100) + '%';
+  }, {passive:true});
+
+  /* ---------- Hero 终端动画 ---------- */
+  var heroLines = [
+    {cls:'t-cmd', text:'syms x'},
+    {cls:'t-cmd', text:'f = sin(x);'},
+    {cls:'t-cmd', text:'F = int(f, x)'},
+    {cls:'t-out', text:'-cos(x)'},
+    {cls:'t-cmd', text:'L = limit(sin(x)/x, x, 0)'},
+    {cls:'t-out', text:'1'},
+    {cls:'t-cmd', text:'plot(x, sin(x))'},
+    {cls:'t-cmd', text:'% 曲线绘制中...', cursor:true}
+  ];
+  function playHero(){
+    var body = document.getElementById('heroTermBody');
+    if (!body) return;
+    body.innerHTML = '';
+    var i = 0;
+    function addNext(){
+      if (i >= heroLines.length){ return; }
+      var line = heroLines[i];
+      var div = document.createElement('div');
+      div.className = 't-line ' + line.cls;
+      div.textContent = line.text;
+      if (line.cursor){ var c = document.createElement('span'); c.className='cursor'; div.appendChild(c); }
+      body.appendChild(div);
+      requestAnimationFrame(function(){ div.classList.add('show'); });
+      i++;
+      setTimeout(addNext, 620);
+    }
+    setTimeout(addNext, 400);
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var body = document.getElementById('heroTermBody');
+    if (body){
+      heroLines.forEach(function(l){
+        var div = document.createElement('div');
+        div.className = 't-line ' + l.cls;
+        div.textContent = l.text;
+        if (l.cursor){ var c = document.createElement('span'); c.className='cursor'; div.appendChild(c); }
+        div.style.opacity = 1; div.style.transform = 'none';
+        body.appendChild(div);
+      });
+    }
+  } else {
+    document.addEventListener('DOMContentLoaded', playHero);
+  }
+
+  /* ---------- ECharts 工具函数 ---------- */
+  var ECHARTS_LOADED = false;
+  function initChart(id, makeOption){
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (!window.echarts){
+      el.classList.add('fallback');
+      el.textContent = '图表加载失败（需要网络加载 ECharts 库），请在联网环境打开查看曲线。';
+      return;
+    }
+    ECHARTS_LOADED = true;
+    var chart = echarts.init(el);
+    chart.setOption(makeOption());
+    window.addEventListener('resize', function(){ chart.resize(); });
+  }
+  var PALETTE = ['#00528f', '#0e7c86', '#c98a1b', '#1f8a4c', '#b3402e'];
+
+  function baseGrid(){ return { left:48, right:18, top:34, bottom:34 }; }
+  function lineSeries(data, name, color){
+    return { type:'line', data:data, smooth:false, showSymbol:false, lineWidth:2.4,
+      name:name, itemStyle:{color:color}, emphasis:{focus:'series'} };
+  }
+
+  /* 图 1-1 sin 曲线 */
+  initChart('chartSin', function(){
+    var xs=[], ys=[];
+    for (var x=0; x<=2*Math.PI; x+=0.05){ xs.push(x); ys.push(Math.sin(x)); }
+    var data = xs.map(function(v,i){ return [Number(v.toFixed(2)), Number(ys[i].toFixed(4))]; });
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      xAxis:{type:'value', name:'x', min:0, max:2*Math.PI, nameLocation:'middle', nameGap:26},
+      yAxis:{type:'value', name:'y', nameLocation:'middle', nameGap:30},
+      series:[lineSeries(data,'sin(x)','#00528f')] };
+  });
+
+  /* 图 4-1 定积分面积 */
+  initChart('chartArea', function(){
+    var xs=[], ys=[];
+    for (var x=0; x<=2; x+=0.02){ xs.push(x); ys.push(x*x); }
+    var data = xs.map(function(v,i){ return [v, ys[i]]; });
+    var fill = xs.map(function(v,i){ return [v, ys[i]]; });
+    fill.push([2,0]); fill.push([0,0]);
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      xAxis:{type:'value', name:'x', min:0, max:2.2},
+      yAxis:{type:'value', name:'y', min:0, max:4.5},
+      series:[
+        lineSeries(data,'y = x²','#0e7c86'),
+        { type:'line', data:fill, silent:true, showSymbol:false,
+          lineStyle:{opacity:0}, areaStyle:{color:'rgba(14,124,134,0.28)'} }
+      ] };
+  });
+
+  /* 图 5-1 ode45 */
+  initChart('chartOde', function(){
+    var data=[], t=0, y=1, h=0.02;
+    for (t=0; t<=3; t+=h){ data.push([Number(t.toFixed(2)), Number(y.toFixed(4))]); y = y + h*(-y + t*t + 1); }
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      xAxis:{type:'value', name:'t', min:0, max:3},
+      yAxis:{type:'value', name:'y', min:0, max:4},
+      series:[lineSeries(data,'y(t)','#00528f')] };
+  });
+
+  /* 图 6-1 冷却曲线（交互） */
+  function coolData(k){
+    var data=[];
+    for (var t=0; t<=60; t+=0.5){
+      var T = 20 + 70*Math.exp(-k*t);
+      data.push([t, Number(T.toFixed(2))]);
+    }
+    return data;
+  }
+  function coolTime(k){
+    // 20 + 70e^{-kt} = 40 → t = ln(70/20)/k
+    return (Math.log(70/20)/k).toFixed(2);
+  }
+  function drawCool(k){
+    var el = document.getElementById('chartCool');
+    if (!el || !window.echarts) return;
+    var chart = echarts.getInstanceByDom(el) || echarts.init(el);
+    chart.setOption({
+      color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      xAxis:{type:'value', name:'t / min', min:0, max:60},
+      yAxis:{type:'value', name:'T / ℃', min:0, max:100},
+      series:[
+        lineSeries(coolData(k),'T(t)','#00528f'),
+        { type:'line', data:[[0,40],[60,40]], showSymbol:false,
+          lineStyle:{type:'dashed', color:'#1f8a4c', width:1.5}, name:'40℃ 目标线' }
+      ]
+    });
+    window.addEventListener('resize', function(){ chart.resize(); });
+  }
+  var coolSlider = document.getElementById('coolK');
+  var coolVal = document.getElementById('coolKVal');
+  var coolTimeEl = document.getElementById('coolTime');
+  if (coolSlider){
+    drawCool(0.05);
+    coolSlider.addEventListener('input', function(){
+      var k = parseFloat(coolSlider.value);
+      if (coolVal) coolVal.textContent = k.toFixed(3);
+      if (coolTimeEl) coolTimeEl.textContent = coolTime(k);
+      drawCool(k);
+    });
+  }
+
+  /* 图 6-2 指数 vs Logistic */
+  initChart('chartLogistic', function(){
+    var dExp=[], dLog=[], t, N;
+    var r=0.3, K=10000, N0=100;
+    var dExpPts=[], dLogPts=[];
+    for (t=0; t<=30; t+=0.2){
+      dExpPts.push([Number(t.toFixed(1)), Number((N0*Math.exp(r*t)).toFixed(1))]);
+      // logistic 解析解
+      N = K / (1 + ((K-N0)/N0)*Math.exp(-r*t));
+      dLogPts.push([Number(t.toFixed(1)), Number(N.toFixed(1))]);
+    }
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      legend:{top:6, right:10, icon:'roundRect'},
+      xAxis:{type:'value', name:'t / h', min:0, max:30},
+      yAxis:{type:'value', name:'N / 个', min:0, max:12000},
+      series:[
+        lineSeries(dExpPts,'指数增长','#b3402e'),
+        lineSeries(dLogPts,'Logistic','#00528f')
+      ] };
+  });
+
+  /* 图 6-3 拟合 */
+  initChart('chartFit', function(){
+    var td=[0,2,4,6,8], Cd=[50,42.4,35.9,30.4,25.8];
+    // 拟合：由报告正文 polyfit(log(C),t,1)，k=0.0811，C0=50.04
+    var k=0.0811, C0=50.04;
+    var pts=[], curve=[];
+    td.forEach(function(v,i){ pts.push([v, Cd[i]]); });
+    for (var t=0; t<=14; t+=0.2){ curve.push([Number(t.toFixed(1)), Number((C0*Math.exp(-k*t)).toFixed(2))]); }
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      legend:{top:6, right:10, icon:'roundRect'},
+      xAxis:{type:'value', name:'天数', min:0, max:14},
+      yAxis:{type:'value', name:'含量 mg/100g', min:0, max:55},
+      series:[
+        { type:'scatter', data:pts, name:'实验数据', symbolSize:9, itemStyle:{color:'#c98a1b'} },
+        lineSeries(curve,'拟合曲线','#00528f')
+      ] };
+  });
+
+  /* 图 6-4 直方图 */
+  initChart('chartHist', function(){
+    var data=[2.8,3.1,2.9,3.0,3.2,2.7,3.0,2.9,3.1,2.8];
+    var bins=[2.7,2.8,2.9,3.0,3.1,3.2];
+    var counts=[0,0,0,0,0,0];
+    data.forEach(function(v){
+      // 简单分箱：值 v 计入 [v-0.05, v+0.05)
+      for (var b=0; b<bins.length; b++){
+        if (v >= bins[b]-0.05 && v < bins[b]+0.05){ counts[b]++; break; }
+      }
+    });
+    return { color:PALETTE, grid:baseGrid(),
+      tooltip:{trigger:'axis', confine:true},
+      xAxis:{type:'category', name:'含量', data:['2.7','2.8','2.9','3.0','3.1','3.2']},
+      yAxis:{type:'value', name:'频数', minInterval:1},
+      series:[{ type:'bar', data:counts, itemStyle:{color:'#0e7c86'}, barWidth:'52%',
+        label:{show:true, position:'top'} }] };
+  });
+
+})();
+</script>
+</body>
+</html>
